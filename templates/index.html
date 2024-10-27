@@ -3,9 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>IntegriMED - Medical Data Integrity</title>
+    <link rel="stylesheet" href="../static/style.css">
 </head>
 <body>
-    
+    <div class="container">
+        <nav class="navbar">
+            <div class="logo">IntegriMED</div>
+            <div class="nav-links">
+                <a href="/about" class="about">About</a>
+                <a href="/contact" class="contact">Contact us</a>
+            </div>
+            <a href="/login" class="login-btn">Login / Signup</a>
+        </nav>
+
+        <div class="main-content">
+            <div class="left-section">
+                <h1>Ensuring the integrity of your medical data.</h1>
+                <p>We match the files you received with the hashkeys from your medical institution.</p>
+            </div>
+
+            <div class="right-section">
+                <div class="search-container">
+                    <h2>Find my hospital:</h2>
+                    <div class="search-bar-container">
+                        <input type="text" class="search-bar">
+                        <div class="search-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"/>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <h2>Upload your file:</h2>
+                    <input type="file" class="file-upload" accept=".pdf,.doc,.docx">
+                    <div class="button-container">
+                        <button class="submit-btn">Submit</button>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
