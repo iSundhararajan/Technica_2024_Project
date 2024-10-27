@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask_cors import CORS
 import hashlib
-
+import propelauth_py
 
 app = Flask(__name__)
 CORS(app)
@@ -50,6 +50,7 @@ class User(db.Model):
     #Use this function for when needing to show info on profile page name and whether patient or not
     def __repr__(self):
         return '<Name %r>' % self.id
+    
     
     
 @app.route('/account', methods = ['POST', 'GET'])

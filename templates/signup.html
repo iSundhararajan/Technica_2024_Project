@@ -1,0 +1,103 @@
+<!-- templates/signup.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IntegriMED - Sign Up</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <div class="logo">IntegriMED</div>
+            <div class="nav-links">
+                <a href="#about" class="about">About</a>
+                <a href="#contact" class="contact">Contact us</a>
+            </div>
+        </nav>
+
+        <div class="auth-container">
+            <div class="auth-box">
+                <h1>Sign Up</h1>
+                <form id="signupForm">
+                    <div class="input-group">
+                        <input type="text" id="firstName" placeholder="First Name" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="lastName" placeholder="Last Name" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="email" id="email" placeholder="Email" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="password" placeholder="Password" required>
+                    </div>
+                    <div class="role-selector">
+                        <h3>I am a:</h3>
+                        <div class="role-options">
+                            <div class="role-option">
+                                <input type="radio" id="patient" name="role" value="patient" required>
+                                <label for="patient">
+                                    <span class="role-icon">👤</span>
+                                    Patient
+                                </label>
+                            </div>
+                            <div class="role-option">
+                                <input type="radio" id="provider" name="role" value="provider" required>
+                                <label for="provider">
+                                    <span class="role-icon">👨‍⚕️</span>
+                                    Medical Provider
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="auth-button">Sign Up</button>
+                </form>
+                <p class="auth-switch">Already have an account? <a href="/login">Login</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+// Add to signup.html before </body>
+<script src="https://auth.propelauth.com/js/propelauth.js"></script>
+<script>
+    const auth = PropelAuth.initialize({
+        authUrl: 'YOUR_AUTH_URL'
+    });
+
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        try {
+            // Get form values
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const role = document.querySelector('input[name="role"]:checked').value;
+
+            // Create user in PropelAuth
+            await auth.signup({
+                email,
+                password,
+                firstName,
+                lastName,
+                metadata: {
+                    role: role
+                }
+            });
+
+            // Redirect to dashboard based on role
+            if (role === 'patient') {
+                window.location.href = '/patient-dashboard';
+            } else {
+                window.location.href = '/provider-dashboard';
+            }
+
+        } catch (err) {
+            alert('Signup failed: ' + err.message);
+        }
+    });
+</script>
+</html>
