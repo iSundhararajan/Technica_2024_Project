@@ -62,7 +62,7 @@ def find_users_password():
     except Exception as e:
         return f"There is an error: {e}"
 
-@app.route('/registration', methods=['POST', 'GET'])
+@app.route('/signup', methods=['POST', 'GET'])
 def account():
     title = "Account"
     if request.method == "POST":
@@ -90,7 +90,7 @@ def account():
         try:
             db.session.add(newUser)
             db.session.commit()
-            return redirect('/madeAccount')
+            return render_template('account.html', title="Account", user=User)
         except Exception as e:
             db.session.rollback()
             print(f"Error: {e}")  
