@@ -8,7 +8,7 @@ import hashlib
 app = Flask(__name__)
 CORS(app)
 # app.config['SQLALCHEMY_DATABASE_URI']= 'sqlite:///users.db'
-app.config['SQLALCHEMY_DATABASE_URI']= 'sqlite:////Users/brittany/Desktop/inspirigirl/Technica_2024_Project/users.db'
+app.config['SQLALCHEMY_DATABASE_URI']= 'sqlite:////Users/brittany/Desktop/inspirigirl/Technica_2024_Project/hashes.db'
 # /Users/brittany/Desktop/inspirigirl/Technica_2024_Project/app.py
 
 # Initilising the database
