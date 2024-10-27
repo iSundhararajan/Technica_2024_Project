@@ -1,0 +1,50 @@
+/* Add to static/css/auth.css */
+.role-selector {
+    margin-bottom: 25px;
+}
+
+.role-selector h3 {
+    color: #333;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+.role-options {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.role-option {
+    flex: 1;
+}
+
+.role-option input[type="radio"] {
+    display: none;
+}
+
+.role-option label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border: 2px solid #ddd;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.role-option input[type="radio"]:checked + label {
+    border-color: #27185f;
+    background-color: rgba(39, 24, 95, 0.1);
+}
+
+.role-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.role-option label span:last-child {
+    font-size: 1.1rem;
+    color: #333;
+}

@@ -1,7 +1,7 @@
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-
+from propelauth_flask import init_auth, current_user, require_auth
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI']= 'sqlite:///users.db'
@@ -30,6 +30,7 @@ class User(db.Model):
 @app.route('/')
 def index():
     return render_template('index.html')
+    
     
 @app.route('/account', methods = ['POST', 'GET'])
 def account ():
