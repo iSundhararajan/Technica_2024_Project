@@ -27,7 +27,10 @@
         document.getElementById('file').addEventListener('change', function(event) {
             var fileName = event.target.files[0] ? event.target.files[0].name : 'No file chosen';
             document.getElementById('file-name').textContent = fileName;
+           
+            
         });
+        
        const socket = new WebSocket('ws://127.0.0.1:5500/ws');
         socket.onopen = function() {
             console.log('WebSocket connection opened.');
@@ -65,7 +68,8 @@
                 
             } catch (error) {
                 console.error('Error:', error);
-            }
+            } 
+
         }
  
       

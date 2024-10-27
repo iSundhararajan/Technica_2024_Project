@@ -36,7 +36,6 @@ def generate_hash(f):
     print('{}: {}'.format(hasher.name, hasher.hexdigest()))
     return hasher.hexdigest()
 
-    
 
 # Run the Flask app
 if __name__ == '__main__':
