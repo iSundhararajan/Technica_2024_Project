@@ -1,6 +1,7 @@
 from flask import Flask, render_template, jsonify, request, redirect, url_for, send_file
-from flask_socketio import SocketIO
 from flask_cors import CORS
+import hashlib
+
 
 
 app = Flask(__name__)
@@ -12,6 +13,7 @@ def home():
     return render_template('index.html')
 
 
+
 @app.route('/upload', methods=['POST'])
 def uploadFile():
     if 'file' not in request.files:
@@ -21,7 +23,19 @@ def uploadFile():
     if file.filename == '':
         return "No selected file", 400
     if file: 
+        file_hash = generate_hash(file)
         return jsonify("Generating hash...")
+  
+    
+def generate_hash(f):
+    hasher = hashlib.sha256()
+
+    for chunk in iter(lambda: f.read(4096), b""):
+        hasher.update(chunk)
+
+    print('{}: {}'.format(hasher.name, hasher.hexdigest()))
+    return hasher.hexdigest()
+
     
 
 # Run the Flask app
