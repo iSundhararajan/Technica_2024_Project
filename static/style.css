@@ -50,7 +50,7 @@ body {
 }
 
 .nav-links a.about {
-    background-color: #27185f;
+    background-color: #9D147E;
 }
 
 .nav-links a.contact {
@@ -66,6 +66,9 @@ body {
     text-decoration: none;
     border: 2px solid white;
     font-size: 1.2rem;
+}
+.login-btn:hover {
+    box-shadow: 5px 5px 5px 5px  white;
 }
 
 .main-content {
@@ -157,7 +160,7 @@ p {
 .submit-btn {
     width: 50%;
     padding: 15px 20px;
-    background-color: #27185f;
+    background-color: #9D147E;
     color: white;
     border: none;
     border-radius: 50px;
