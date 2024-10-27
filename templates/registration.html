@@ -1,10 +1,11 @@
+<!-- Template with corrected blocks and structure -->
 {% block title %} {{ title }} {% endblock %}
 
 {% block content %}
     <div class="container">
-        <h1>Account</h1>
+        <h1>Registration</h1>
         <br/>
-        <form action="/signup" method="POST">
+        <form action="/registration" method="POST">
             <!-- Define input fields as expected in the backend -->
             <input type="text" placeholder="Name" name="Name">
             <input type="text" placeholder="Email" name="Email">
