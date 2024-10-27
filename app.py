@@ -4,7 +4,7 @@ from flask_cors import CORS
 
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, origins=["http://127.0.0.1:5500"])
 
 
 @app.route('/')
@@ -21,7 +21,7 @@ def uploadFile():
     if file.filename == '':
         return "No selected file", 400
     if file: 
-        return "Generating hash..."
+        return jsonify("Generating hash...")
     
 
 # Run the Flask app
