@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IntegriMED - Medical Data Integrity</title>
+    <link rel="stylesheet" href="../static/user.css">
+</head>
+<body>
+  
+    <div class="header">
+        <div id="logo"><img src="../static/imgs/integrimed-logo.png"></div>
+        
+        <h1 class="name">IntegriMED</h1>
+        <h3>for Medical Professionals</h3>
+    </div>
+  
+    <h2>Upload your file:</h2>
+    <div class="container">
+        <form id="uploadForm" method="post" enctype="multipart/form-data">
+            <input id="file" name="file" type="file" class="file-upload" accept=".pdf,.doc,.docx">
+            <div class="button-container">
+                <button id="upload" onclick="sendFile(event)" class="submit-btn">Submit</button>
+                <!-- <button id="upload" onclick="sendFile(event)" class="submit-btn">Match File</button> -->
+
+            </div>
+        </form>
+        
+    </div>
+    <div class="file-output">
+        <h4 id="result"></h4>
+    </div>
+
+<script>
+    document.getElementById('file').addEventListener('change', function(event) {
+        var fileName = event.target.files[0] ? event.target.files[0].name : 'No file chosen';
+       
+    });
+    
+   const socket = new WebSocket('ws://127.0.0.1:5500/ws');
+    socket.onopen = function() {
+        console.log('WebSocket connection opened.');
+        socket.send('Hello Server!');
+    };
+
+    socket.onmessage = function(event) {
+        console.log('Message from server ', event.data);
+    };
+
+    socket.onclose = function() {
+        console.log('WebSocket connection closed.');
+    };
+
+    socket.onerror = function(error) {
+        console.error('WebSocket Error: ', error);
+    };
+
+    async function sendFile(event) {
+        event.preventDefault()
+        const formData = new FormData(document.getElementById('uploadForm'))
+        try {
+            
+            const response = await fetch('http://127.0.0.1:5000/adminUpload', { 
+                method: 'POST', 
+                body: formData,
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            if (response.status === 201) {
+                alert('File has been successfully saved to the database!');
+            }
+          
+            
+        } catch (error) {
+            console.error('Error:', error);
+        } 
+        
+
+    }
+</script>
+
+    
+</body>
+</html>

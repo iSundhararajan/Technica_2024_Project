@@ -86,6 +86,22 @@ def uploadFile():
         search_response = search(file_hash)
         # return jsonify(search_response)
         return search_response
+        
+    
+@app.route('/adminUpload', methods=['POST'])
+def adminUpload():
+    if 'file' not in request.files:
+        # return "No file part", 400
+        return jsonify({'message': 'No file part'}), 400
+    
+    file = request.files['file']
+    if file.filename == '':
+        # return "No selected file", 400
+        return jsonify({'message': 'No selected file'}), 400
+    if file: 
+        hashed_file = generate_hash(file)
+        add_hash_to_db(file.filename, hashed_file) 
+        return jsonify({'message': 'Hashed file saved to database'}), 201
     
 
 def search(hash):
@@ -98,7 +114,7 @@ def search(hash):
             # return jsonify("File is IntegriMED certified!"), 400
         else:
             print("WARNING: This file might have been tampered with")
-            return jsonify({'message':"WARNING: This file might have been tampered with"})
+            return jsonify({'message':"WARNING: This file might have been tampered with. Please contact your medical institution."})
     else:
         return jsonify({'message':'Query parameter is required'}), 400
 
@@ -112,9 +128,9 @@ def generate_hash(f):
 
     print('{}: {}'.format(hasher.name, hasher.hexdigest()))
     hash = hasher.hexdigest()
-    return hash
+    # return hash
     # add_hash_to_db(f.filename, hash) 
-    # return hasher.hexdigest()
+    return hasher.hexdigest()
 
 def add_hash_to_db(file_name, hash_value):
     new_hash = Hashes(fileName=file_name, hashVal=hash_value)
