@@ -1,16 +1,42 @@
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from flask_cors import CORS
+import hashlib
 import propelauth_py
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI']= 'sqlite:///users.db'
+CORS(app)
+# app.config['SQLALCHEMY_DATABASE_URI']= 'sqlite:///users.db'
+app.config['SQLALCHEMY_DATABASE_URI']= 'sqlite:////Users/brittany/Desktop/inspirigirl/Technica_2024_Project/hashes.db'
+# /Users/brittany/Desktop/inspirigirl/Technica_2024_Project/app.py
 
 # Initilising the database
 
 db = SQLAlchemy(app)
 
 #Create database tables
+
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+class Hashes(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    fileName = db.Column(db.String(100), nullable=False)
+    hashVal = db.Column(db.String(70), nullable=False)
+    def __repr__(self):
+        return '<File %r>' % self.id
+
+@app.route('/add_hash', methods=['POST'])
+def add_hash(f,hash):
+    data = request.json
+    # file_name = data['fileName']
+    new_hash = Hashes(fileName=data['f'], hashVal=data["hash"])
+    db.session.add(new_hash)
+    db.session.commit()
+    return jsonify({'message': 'Hash added!'}), 201
 
 #Make two separate tables for doctors and patients
 class User(db.Model): 
@@ -24,12 +50,7 @@ class User(db.Model):
     #Use this function for when needing to show info on profile page name and whether patient or not
     def __repr__(self):
         return '<Name %r>' % self.id
-
-
-
-@app.route('/')
-def index():
-    return render_template('index.html')
+    
     
     
 @app.route('/account', methods = ['POST', 'GET'])
@@ -51,7 +72,76 @@ def account ():
         return render_template('account.html')
 
 
+@app.route('/upload', methods=['POST'])
+def uploadFile():
+    if 'file' not in request.files:
+        # return "No file part", 400
+        return jsonify({'message': 'No file part'}), 400
+    
+    file = request.files['file']
+    if file.filename == '':
+        # return "No selected file", 400
+        return jsonify({'message': 'No selected file'}), 400
+    if file: 
+        file_hash = generate_hash(file)
+        search_response = search(file_hash)
+        # return jsonify(search_response)
+        return search_response
+        
+    
+@app.route('/adminUpload', methods=['POST'])
+def adminUpload():
+    if 'file' not in request.files:
+        # return "No file part", 400
+        return jsonify({'message': 'No file part'}), 400
+    
+    file = request.files['file']
+    if file.filename == '':
+        # return "No selected file", 400
+        return jsonify({'message': 'No selected file'}), 400
+    if file: 
+        hashed_file = generate_hash(file)
+        add_hash_to_db(file.filename, hashed_file) 
+        return jsonify({'message': 'Hashed file saved to database'}), 201
+    
+
+def search(hash):
+    if hash:
+        results = Hashes.query.filter((Hashes.hashVal == str(hash))).all()
+        
+        if results:
+            print("File is IntegriMED certified!")
+            return jsonify({'message':"File is IntegriMED certified!"}),200
+            # return jsonify("File is IntegriMED certified!"), 400
+        else:
+            print("WARNING: This file might have been tampered with")
+            return jsonify({'message':"WARNING: This file might have been tampered with. Please contact your medical institution."})
+    else:
+        return jsonify({'message':'Query parameter is required'}), 400
+
+
+def generate_hash(f):
+    hasher = hashlib.sha256()
+
+    for chunk in iter(lambda: f.read(4096), b""):
+        hasher.update(chunk)
+    
+
+    print('{}: {}'.format(hasher.name, hasher.hexdigest()))
+    hash = hasher.hexdigest()
+    # return hash
+    # add_hash_to_db(f.filename, hash) 
+    return hasher.hexdigest()
+
+def add_hash_to_db(file_name, hash_value):
+    new_hash = Hashes(fileName=file_name, hashVal=hash_value)
+    db.session.add(new_hash)
+    db.session.commit()
+    return jsonify({'message': 'Hash added!'}), 201
+
 
 # Run the Flask app
 if __name__ == '__main__':
-    app.run(debug=True)
+    with app.app_context():
+        db.create_all()  
+    app.run(debug=True) 

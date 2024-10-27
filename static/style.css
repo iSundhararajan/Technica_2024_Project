@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Pridi:wght@200;300;400;500;600;700&display=swap');
 * {
     margin: 0;
     padding: 0;
@@ -32,6 +32,7 @@ body {
     font-size: 1.8rem;
     font-weight: 500;
     color: #333;
+    font-family: "Pridi", sans-serif;
 }
 
 .nav-links {
@@ -248,3 +249,33 @@ p {
     display: flex;
     justify-content: center;
 }
+
+#result {
+    /* display: none; */
+    font-size: 30px;
+    padding: 0;
+    align-self: center;
+  
+}
+
+.file-output {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    
+    margin: 0;
+    padding: 0;
+}
+
+/* FOR login.html */
+
+#login-pg {
+    background-color: white;
+}
+
+.pridi-regular {
+    font-family: "Pridi", serif;
+    font-weight: 400;
+    font-style: normal;
+  }

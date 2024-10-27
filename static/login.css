@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Pridi:wght@200;300;400;500;600;700&display=swap');
+html {
+    --white: #FFFCF8;
+    --purple: #9D147E;
+    --grey: #333;
+}
+body {
+    background-color: black;
+    color: var(--white);
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    margin: auto;
+    margin-top: 200px;
+    margin-bottom: 0;
+}
+
+#title {
+    align-items: center;
+    margin: 0;
+
+}
+
+.name {
+    font-family: "Pridi", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    margin: 0px;
+    font-size: 50px;
+}
+
+#tagline {
+    color: var(--purple);
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+}
+
+#choices {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    height: 200px;
+}
+
+.option {
+    margin: 30px;
+    margin-top: 0;
+    width: 230px;
+    height: 50px;
+    font-size: 20px;
+    background-color: var(--purple);
+    color: var(--white);
+    border-radius: 6px;
+    border: none;
+    
+}
+
+.option:hover {
+    cursor: pointer;
+}
+
+.back-btn {
+    background-color: transparent;
+    margin: 5px;
+    margin-top: 15px;
+    height: 30px;
+}
+
+
+
+
+/* fonts */
+.pridi-extralight {
+    font-family: "Pridi", serif;
+    font-weight: 200;
+    font-style: normal;
+  }
+  
+  .pridi-light {
+    font-family: "Pridi", serif;
+    font-weight: 300;
+    font-style: normal;
+  }
+  
+  .pridi-regular {
+    font-family: "Pridi", serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  .pridi-medium {
+    font-family: "Pridi", serif;
+    font-weight: 500;
+    font-style: normal;
+  }
+  
+  .pridi-semibold {
+    font-family: "Pridi", serif;
+    font-weight: 600;
+    font-style: normal;
+  }
+  
+  .pridi-bold {
+    font-family: "Pridi", serif;
+    font-weight: 700;
+    font-style: normal;
+  }
+  
