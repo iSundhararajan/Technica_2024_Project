@@ -248,3 +248,12 @@ p {
     display: flex;
     justify-content: center;
 }
+
+#result {
+    /* display: none; */
+    font-size: 30px;
+}
+
+.file-output {
+    
+}

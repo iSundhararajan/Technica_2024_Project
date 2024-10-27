@@ -74,31 +74,33 @@ def account ():
 @app.route('/upload', methods=['POST'])
 def uploadFile():
     if 'file' not in request.files:
-        return "No file part", 400
+        # return "No file part", 400
+        return jsonify({'message': 'No file part'}), 400
     
     file = request.files['file']
     if file.filename == '':
-        return "No selected file", 400
+        # return "No selected file", 400
+        return jsonify({'message': 'No selected file'}), 400
     if file: 
         file_hash = generate_hash(file)
         search_response = search(file_hash)
-        return jsonify(search_response)
-        # return jso
+        # return jsonify(search_response)
+        return search_response
     
 
 def search(hash):
-    # query = request.args.get('query')
-
     if hash:
         results = Hashes.query.filter((Hashes.hashVal == str(hash))).all()
         
         if results:
-            print("File is IntegriMED certified!"),200
+            print("File is IntegriMED certified!")
+            return jsonify({'message':"File is IntegriMED certified!"}),200
             # return jsonify("File is IntegriMED certified!"), 400
         else:
             print("WARNING: This file might have been tampered with")
+            return jsonify({'message':"WARNING: This file might have been tampered with"})
     else:
-        return jsonify({'message': 'Query parameter is required'}), 400
+        return jsonify({'message':'Query parameter is required'}), 400
 
 
 def generate_hash(f):

@@ -48,10 +48,13 @@
                         <input id="file" name="file" type="file" class="file-upload" accept=".pdf,.doc,.docx">
                         <div class="button-container">
                             <button id="upload" onclick="sendFile(event)" class="submit-btn">Submit</button>
-                            <button id="upload" onclick="sendFile(event)" class="submit-btn">Match File</button>
+                            <!-- <button id="upload" onclick="sendFile(event)" class="submit-btn">Match File</button> -->
 
                         </div>
                     </form>
+                    <div class="file-output">
+                        <h2 id="result"></h2>
+                    </div>
                     
                 </div>
             </div>
@@ -161,6 +164,7 @@
 
                 const data = await response.json();
                 // newFile = data.categorized;
+                document.getElementById('result').innerText = data.message;
               
                 
             } catch (error) {
