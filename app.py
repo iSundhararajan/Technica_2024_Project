@@ -44,6 +44,9 @@ class User(db.Model):
         fullName = self.firstName + " " + self.lastName
         return '<Name %r, email %r, affiliatedHospital %r, User Type %r>' % (fullName, self.email, self.affiliatedHospital, self.userType)
 
+with app.app_context():
+    db.create_all()
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -67,16 +70,16 @@ def account():
     title = "Account"
     if request.method == "POST":
         userName = request.form.get('Name', '')
-        emailI = request.form.get('Email')
-        affiliatedHospitalI = request.form.get('Affiliated Hospital')
-        passwordI = request.form.get('Password')
-        userTypeI = request.form.get('UserType')
+        emailI = request.form.get('Email', '')
+        affiliatedHospitalI = request.form.get('affiliatedHospital','')
+        passwordI = request.form.get('Password', '')
+        userTypeI = request.form.get('UserType','')
         
         name_parts = userName.split(" ", 1)
         firstNameI = name_parts[0]
         lastNameI = name_parts[1] if len(name_parts) > 1 else ""
 
-        if not (emailI and affiliatedHospitalI and passwordI and userTypeI):
+        if not (userName and emailI and affiliatedHospitalI and passwordI and userTypeI):
             return "All fields are required", 400  # 400 Bad Request if any field is missing
 
         newUser = User(

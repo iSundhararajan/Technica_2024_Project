@@ -2,13 +2,13 @@
 
 {% block content %}
     <div class="container">
-        <h1>Account</h1>
+        <h1>Account Registration</h1>
         <br/>
         <form action="/signup" method="POST">
             <!-- Define input fields as expected in the backend -->
             <input type="text" placeholder="Name" name="Name">
             <input type="text" placeholder="Email" name="Email">
-            <input type="text" placeholder="Affiliated Hospital" name="Affiliated Hospital">
+            <input type="text" placeholder="Affiliated Hospital" name="affiliatedHospital">
             <input type="password" placeholder="Password" name="Password">
             <label for="UserType">User Type:</label>
             <select name="UserType">
