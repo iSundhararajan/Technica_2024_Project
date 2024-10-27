@@ -252,8 +252,17 @@ p {
 #result {
     /* display: none; */
     font-size: 30px;
+    padding: 0;
+    align-self: center;
+  
 }
 
 .file-output {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
     
+    margin: 0;
+    padding: 0;
 }
