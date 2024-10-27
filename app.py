@@ -81,20 +81,22 @@ def uploadFile():
         return "No selected file", 400
     if file: 
         file_hash = generate_hash(file)
-        return jsonify("Generating hash...")
+        search_response = search(file_hash)
+        return jsonify(search_response)
+        # return jso
+    
 
-@app.route('/search', methods=['GET'])
-def search():
-    query = request.args.get('query')
-    if query:
-        results = Hashes.query.filter(
-            (Hashes.hashVal == query)
-        ).all()
+def search(hash):
+    # query = request.args.get('query')
+
+    if hash:
+        results = Hashes.query.filter((Hashes.hashVal == str(hash))).all()
         
         if results:
-            return jsonify("File is IntegriMED certified!"), 400
+            print("File is IntegriMED certified!"),200
+            # return jsonify("File is IntegriMED certified!"), 400
         else:
-            return jsonify("WARNING: This file might have been tampered with")
+            print("WARNING: This file might have been tampered with")
     else:
         return jsonify({'message': 'Query parameter is required'}), 400
 
@@ -108,7 +110,8 @@ def generate_hash(f):
 
     print('{}: {}'.format(hasher.name, hasher.hexdigest()))
     hash = hasher.hexdigest()
-    add_hash_to_db(f.filename, hash) 
+    return hash
+    # add_hash_to_db(f.filename, hash) 
     # return hasher.hexdigest()
 
 def add_hash_to_db(file_name, hash_value):
