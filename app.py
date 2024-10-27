@@ -15,6 +15,27 @@ db = SQLAlchemy(app)
 
 #Create database tables
 
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+class Hashes(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    fileName = db.Column(db.String(100), nullable=False)
+    hashVal = db.Column(db.String(64), nullable=False)
+    def __repr__(self):
+        return '<File %r>' % self.id
+
+@app.route('/add_hash', methods=['POST'])
+def add_hash(hash):
+    data = request.json
+    # file_name = data['fileName']
+    new_hash = Hashes(fileName=data['fileName'], hashVal=data[hash])
+    db.session.add(new_hash)
+    db.session.commit()
+    return jsonify({'message': 'Hash added!'}), 201
+
 #Make two separate tables for doctors and patients
 class User(db.Model): 
     id = db.Column(db.Integer, primary_key=True)
@@ -27,12 +48,7 @@ class User(db.Model):
     #Use this function for when needing to show info on profile page name and whether patient or not
     def __repr__(self):
         return '<Name %r>' % self.id
-
-
-
-@app.route('/')
-def index():
-    return render_template('index.html')
+    
     
 @app.route('/account', methods = ['POST', 'GET'])
 def account ():
@@ -70,11 +86,15 @@ def generate_hash(f):
 
     for chunk in iter(lambda: f.read(4096), b""):
         hasher.update(chunk)
+    
 
     print('{}: {}'.format(hasher.name, hasher.hexdigest()))
-    return hasher.hexdigest()
+    add_hash(hasher.hexdigest())
+    # return hasher.hexdigest()
 
 
 # Run the Flask app
 if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()  
     app.run(debug=True) 
