@@ -44,10 +44,12 @@
                 
 
                     <h2>Upload your file:</h2>
-                    <input type="file" class="file-upload" accept=".pdf,.doc,.docx">
-                    <div class="button-container">
-                        <button class="submit-btn">Submit</button>
-                    </div>
+                    <form id="uploadForm" method="post" enctype="multipart/form-data">
+                        <input id="file" name="file" type="file" class="file-upload" accept=".pdf,.doc,.docx">
+                        <div class="button-container">
+                            <button id="upload" onclick="sendFile(event)" class="submit-btn">Submit</button>
+                        </div>
+                    </form>
                     
                 </div>
             </div>
@@ -116,5 +118,55 @@
             e.preventDefault();
         }
     });
+
+    // !! Uploading file for hash generation !! 
+    document.getElementById('file').addEventListener('change', function(event) {
+            var fileName = event.target.files[0] ? event.target.files[0].name : 'No file chosen';
+            // document.getElementById('file-name').textContent = fileName;
+           
+            
+        });
+        
+       const socket = new WebSocket('ws://127.0.0.1:5500/ws');
+        socket.onopen = function() {
+            console.log('WebSocket connection opened.');
+            socket.send('Hello Server!');
+        };
+
+        socket.onmessage = function(event) {
+            console.log('Message from server ', event.data);
+        };
+
+        socket.onclose = function() {
+            console.log('WebSocket connection closed.');
+        };
+
+        socket.onerror = function(error) {
+            console.error('WebSocket Error: ', error);
+        };
+
+        async function sendFile(event) {
+            event.preventDefault()
+            const formData = new FormData(document.getElementById('uploadForm'))
+            try {
+                const response = await fetch('http://127.0.0.1:5000/upload', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+                // newFile = data.categorized;
+              
+                
+            } catch (error) {
+                console.error('Error:', error);
+            } 
+            
+
+        }
 </script>
 </html>
