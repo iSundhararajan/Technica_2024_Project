@@ -1,5 +1,6 @@
 Flask==2.3.2
 FLASK_sqlalchemy==3.1.1
+propelauth-py=2.22
 
 
 
