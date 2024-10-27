@@ -8,7 +8,7 @@ import hashlib
 app = Flask(__name__)
 CORS(app)
 # app.config['SQLALCHEMY_DATABASE_URI']= 'sqlite:///users.db'
-app.config['SQLALCHEMY_DATABASE_URI']= 'sqlite:////Users/brittany/Desktop/inspirigirl/Technica_2024_Project/hashes.db'
+app.config['SQLALCHEMY_DATABASE_URI']= 'sqlite:////Users/brittany/Desktop/inspirigirl/Technica_2024_Project/users.db'
 # /Users/brittany/Desktop/inspirigirl/Technica_2024_Project/app.py
 
 # Initilising the database
@@ -82,7 +82,23 @@ def uploadFile():
     if file: 
         file_hash = generate_hash(file)
         return jsonify("Generating hash...")
+
+@app.route('/search', methods=['GET'])
+def search():
+    query = request.args.get('query')
+    if query:
+        results = Hashes.query.filter(
+            (Hashes.hashVal == query)
+        ).all()
         
+        if results:
+            return jsonify("File is IntegriMED certified!"), 400
+        else:
+            return jsonify("WARNING: This file might have been tampered with")
+    else:
+        return jsonify({'message': 'Query parameter is required'}), 400
+
+
 def generate_hash(f):
     hasher = hashlib.sha256()
 

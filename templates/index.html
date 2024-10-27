@@ -48,6 +48,8 @@
                         <input id="file" name="file" type="file" class="file-upload" accept=".pdf,.doc,.docx">
                         <div class="button-container">
                             <button id="upload" onclick="sendFile(event)" class="submit-btn">Submit</button>
+                            <button id="upload" onclick="sendFile(event)" class="submit-btn">Submit</button>
+
                         </div>
                     </form>
                     
@@ -122,9 +124,7 @@
     // !! Uploading file for hash generation !! 
     document.getElementById('file').addEventListener('change', function(event) {
             var fileName = event.target.files[0] ? event.target.files[0].name : 'No file chosen';
-            // document.getElementById('file-name').textContent = fileName;
            
-            
         });
         
        const socket = new WebSocket('ws://127.0.0.1:5500/ws');
@@ -149,8 +149,9 @@
             event.preventDefault()
             const formData = new FormData(document.getElementById('uploadForm'))
             try {
-                const response = await fetch('http://127.0.0.1:5000/upload', {
-                    method: 'POST',
+                // DONT FORGET TO CHANGE IT BACK TO DIRECT TO upload
+                const response = await fetch('http://127.0.0.1:5000/upload', { 
+                    method: 'POST', 
                     body: formData,
                 });
 
