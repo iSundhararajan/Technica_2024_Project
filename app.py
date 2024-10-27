@@ -7,7 +7,9 @@ import hashlib
 
 app = Flask(__name__)
 CORS(app)
-app.config['SQLALCHEMY_DATABASE_URI']= 'sqlite:///users.db'
+# app.config['SQLALCHEMY_DATABASE_URI']= 'sqlite:///users.db'
+app.config['SQLALCHEMY_DATABASE_URI']= 'sqlite:////Users/brittany/Desktop/inspirigirl/Technica_2024_Project/users.db'
+# /Users/brittany/Desktop/inspirigirl/Technica_2024_Project/app.py
 
 # Initilising the database
 
@@ -23,15 +25,15 @@ def index():
 class Hashes(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     fileName = db.Column(db.String(100), nullable=False)
-    hashVal = db.Column(db.String(64), nullable=False)
+    hashVal = db.Column(db.String(70), nullable=False)
     def __repr__(self):
         return '<File %r>' % self.id
 
 @app.route('/add_hash', methods=['POST'])
-def add_hash(hash):
+def add_hash(f,hash):
     data = request.json
     # file_name = data['fileName']
-    new_hash = Hashes(fileName=data['fileName'], hashVal=data[hash])
+    new_hash = Hashes(fileName=data['f'], hashVal=data["hash"])
     db.session.add(new_hash)
     db.session.commit()
     return jsonify({'message': 'Hash added!'}), 201
@@ -89,8 +91,15 @@ def generate_hash(f):
     
 
     print('{}: {}'.format(hasher.name, hasher.hexdigest()))
-    add_hash(hasher.hexdigest())
+    hash = hasher.hexdigest()
+    add_hash_to_db(f.filename, hash) 
     # return hasher.hexdigest()
+
+def add_hash_to_db(file_name, hash_value):
+    new_hash = Hashes(fileName=file_name, hashVal=hash_value)
+    db.session.add(new_hash)
+    db.session.commit()
+    return jsonify({'message': 'Hash added!'}), 201
 
 
 # Run the Flask app
