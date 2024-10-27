@@ -26,15 +26,22 @@
             <div class="right-section">
                 <div class="search-container">
                     <h2>Find my hospital:</h2>
-                    <div class="search-bar-container">
-                        <input type="text" class="search-bar">
+                    <div class="search-wrapper">
+                        <input type="text" 
+                               class="search-input" 
+                               id="hospitalSearch" 
+                               placeholder="Select your hospital"
+                               autocomplete="off">
                         <div class="search-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <circle cx="11" cy="11" r="8"/>
                                 <line x1="21" y1="21" x2="16.65" y2="16.65"/>
                             </svg>
                         </div>
+                        <div class="dropdown-menu" id="dropdown-menu"></div>
                     </div>
+                </div>
+                
 
                     <h2>Upload your file:</h2>
                     <input type="file" class="file-upload" accept=".pdf,.doc,.docx">
@@ -47,4 +54,67 @@
         </div>
     </div>
 </body>
+<script>
+    const hospitals = [
+        "Mayo Clinic - Rochester, MN",
+        "Cleveland Clinic - Cleveland, OH",
+        "Massachusetts General Hospital - Boston, MA",
+        "Johns Hopkins Hospital - Baltimore, MD",
+        "UCLA Medical Center - Los Angeles, CA",
+        "NewYork-Presbyterian Hospital - New York, NY",
+        "UCSF Medical Center - San Francisco, CA",
+        "Northwestern Memorial Hospital - Chicago, IL",
+        "Stanford Health Care - Stanford, CA",
+        "Cedars-Sinai Medical Center - Los Angeles, CA"
+    ];
+
+    const searchInput = document.getElementById('hospitalSearch');
+    const dropdownMenu = document.getElementById('dropdown-menu');
+
+    // Function to create and display dropdown items
+    function showDropdownItems(filteredItems = hospitals) {
+        dropdownMenu.innerHTML = '';
+        filteredItems.forEach(hospital => {
+            const item = document.createElement('div');
+            item.className = 'dropdown-item';
+            item.textContent = hospital;
+            item.addEventListener('click', () => {
+                searchInput.value = hospital;
+                dropdownMenu.style.display = 'none';
+            });
+            dropdownMenu.appendChild(item);
+        });
+    }
+
+    // Show dropdown when clicking on input
+    searchInput.addEventListener('click', () => {
+        dropdownMenu.style.display = 'block';
+        showDropdownItems();
+    });
+
+    // Filter items when typing
+    searchInput.addEventListener('input', (e) => {
+        const value = e.target.value.toLowerCase();
+        const filteredHospitals = hospitals.filter(hospital => 
+            hospital.toLowerCase().includes(value)
+        );
+        
+        dropdownMenu.style.display = 'block';
+        showDropdownItems(filteredHospitals);
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!searchInput.contains(e.target) && !dropdownMenu.contains(e.target)) {
+            dropdownMenu.style.display = 'none';
+        }
+    });
+
+    // Prevent form submission on enter
+    searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+        }
+    });
+</script>
 </html>
